@@ -1,5 +1,5 @@
-FROM python:3.8-slim as serve
+FROM python:3.8-slim
 WORKDIR /usr/src/app
-RUN     pip install -r requirements.txt 
 COPY . .
+RUN     pip install -r requirements.txt 
 CMD ["python", "app.py"]
