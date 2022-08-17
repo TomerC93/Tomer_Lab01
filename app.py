@@ -9,6 +9,4 @@ for instance in ec2.instances.all():
         if kube_machine == True:
                 for tag in instance.tags:
                     if tag['Key'] == "Name":
-                        print(tag['Value'])
-                        print(instance.id)
-
+                        print("{0} {1}".format(tag['Value'], instance.id))
