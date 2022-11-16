@@ -1,58 +1,54 @@
 pipeline {
     agent any
+    
     parameters {
         string defaultValue: '500', name: 'INTERVAL'
+        string defaultValue: 'None', name: 'ID'
+        string defaultValue: 'None', name: 'ACCESS'
+        string defaultValue: 'None', name: 'USERNAME'
+        string defaultValue: 'None', name: 'PASSWORD'
     }
-    environment {
-        CRED = credentials('credentials')
-        CONFIG = credentials('config')
-    }
-
+    
+    
     stages {
-        stage('CleanWs') {
+        
+        
+        stage('CREATE ENV') {
             steps {
-                cleanWs()
+               sh "echo KEY_ID=$ID >> .env"
+               sh "echo ACCESS_KEY=$ACCESS >> .env"
             }
         }
-        stage('RemoveRunningContainer') {
+    
+        stage('GET SCM') {
             steps {
-                sh "docker stop myapp:${oldBuild}=={${currentBuild.number}-1 } "
-                sh "docker rm myapp:${oldBuild}=={${currentBuild.number}-1 }"
-                sh "docker rmi myapp:${oldBuild}=={${currentBuild.number}-1 }"
+               git branch: 'main', url: 'https://github.com/TomerC93/Tomer_Lab01.git'
             }
         }
-        stage('GetSCM') {
-            steps {
-                git url: 'https://github.com/TomerC93/Tomer_Lab01.git', branch: 'main'
-            }
-        }
-        stage('Build') {
-            steps {
-                print currentBuild.number
-                sh "cat $CRED | tee credentials"
-                sh "cat $CONFIG | tee config"
-                sh "docker build -t myapp:${currentBuild.number} ."
-            }
-        }
-        stage('Deploy') {
-            steps {
-                sh "docker run -itd --name myapp:${currentBuild.number} --env INTERVAL=${params.INTERVAL} myapp"
-            }
-        stage('Login') {
-            steps {
-                sh "docker login -u 'Tomer USERNAME EXAMPLE' -p -'Tomer PASSWORD Example' "
-            }
-        }
-        stage('Push') {
-            steps {
-                sh "docker push myapp:${currentBuild.number}"
-            }
-        }
-        stage('Logout') {
-            steps {
-                sh "docker logout"
-            }
-        }
-    }
-}
 
+        stage('Build and Test') {
+            steps {
+                sh 'docker build -t tomercohen1993/production:1.1.${BUILD_NUMBER} .'
+            }
+        }
+
+        stage('Tag Image') {
+            steps {
+                sh 'docker tag tomercohen1993/production:1.1.${BUILD_NUMBER} tomercohen1993/production:1.1.${BUILD_NUMBER}'
+            }
+        }
+
+        stage('Docker Login') {
+            steps {
+                sh 'docker login -u ${USERNAME} -p ${PASSWORD} '
+            }
+        }
+        
+        
+        stage('Push Image') {
+            steps {
+                sh 'docker push tomercohen1993/production:1.1.${BUILD_NUMBER}.${BUILD_NUMBER}'
+            }
+        }
+     }
+}
