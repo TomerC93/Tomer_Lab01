@@ -29,9 +29,25 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
+          env:
+          - name: ENV_INTERVAL
+            valueFrom:
+              configMapKeyRef:
+                name: final_env
+                key: INTERVAL
+          - name: ENV_ID
+            valueFrom:
+              configMapKeyRef:
+                name: final_env
+                key: ID
+          - name: ENV_ACCESS
+            valueFrom:
+              configMapKeyRef:
+                name: final_env
+                key: ACCESS
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: {{ .Values.image.repository }}/{{ .Values.image.image_name }}:{{ .Values.image.tag | default .Chart.AppVersion }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http

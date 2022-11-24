@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: final_env
+data:
+  INTERVAL: 500
+  ID: AKIA3LTSIWSZXTJUUYWF
+  ACCESS: B0BX2jw7jnZ+Rpglh9X3osba2EJIOwa+1m7WQfXe
+  
