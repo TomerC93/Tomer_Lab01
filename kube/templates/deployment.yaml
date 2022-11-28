@@ -33,17 +33,17 @@ spec:
           - name: ENV_INTERVAL
             valueFrom:
               configMapKeyRef:
-                name: final_env
+                name: finalenv
                 key: INTERVAL
           - name: ENV_ID
             valueFrom:
               configMapKeyRef:
-                name: final_env
+                name: finalenv
                 key: ID
           - name: ENV_ACCESS
             valueFrom:
               configMapKeyRef:
-                name: final_env
+                name: finalenv
                 key: ACCESS
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}

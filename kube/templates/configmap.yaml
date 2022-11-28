@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: final_env
+  name: finalenv
 data:
   INTERVAL: "500"
   ID: AKIA3LTSIWSZXTJUUYWF
