@@ -10,7 +10,6 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      {{- include "finalproject.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
