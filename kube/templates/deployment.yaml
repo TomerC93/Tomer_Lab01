@@ -8,7 +8,7 @@ spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
-selector:
+  selector:
   template:
     metadata:
       {{- with .Values.podAnnotations }}
