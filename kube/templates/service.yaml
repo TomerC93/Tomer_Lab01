@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ include "finalproject.fullname" . }}
   labels:
-    {{- include "finalproject.labels" . | nindent 4 }}
+    app: finalproject
 spec:
   type: {{ .Values.service.type }}
   ports:

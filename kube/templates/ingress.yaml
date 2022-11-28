@@ -17,8 +17,7 @@ kind: Ingress
 metadata:
   name: {{ $fullName }}
   labels:
-    {{- include "finalproject.labels" . | nindent 4 }}
-  {{- with .Values.ingress.annotations }}
+    app: finalproject
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
