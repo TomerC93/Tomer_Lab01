@@ -9,6 +9,8 @@ spec:
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
+    matchLabels:
+      app: finalproject
   template:
     metadata:
       {{- with .Values.podAnnotations }}
